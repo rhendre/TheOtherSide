@@ -8,9 +8,9 @@ def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
         # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
+        base_path = os.path.dirname(sys.argv[0])
     except Exception:
-        base_path = os.path.abspath(".")
+        base_path = os.path.dirname(sys.argv[0])
     return os.path.join(base_path, relative_path)
 
 
@@ -21,7 +21,12 @@ class Screen2(QtWidgets.QMainWindow):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1148, 849)
+        MainWindow.setFixedSize(1148, 849)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(resource_path('Images/The Other Side_logo.png')), QtGui.QIcon.Normal,
                        QtGui.QIcon.Off)
@@ -72,7 +77,7 @@ class Screen2(QtWidgets.QMainWindow):
         icon1.addPixmap(QtGui.QPixmap(resource_path('Images/directional-chevron-back-512.ico')), QtGui.QIcon.Normal,
                         QtGui.QIcon.Off)
         self.commandLinkButton.setIcon(icon1)
-        self.commandLinkButton.setIconSize(QtCore.QSize(35, 35))
+        self.commandLinkButton.setIconSize(QtCore.QSize(25, 25))
         self.commandLinkButton.setObjectName("commandLinkButton")
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

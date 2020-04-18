@@ -20,7 +20,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-class PollingScreen(QtWidgets.QMainWindow):
+class ConversationScreen(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         QtWidgets.QMainWindow.__init__(self, parent)
         self.setupUi(self)
@@ -31,14 +31,14 @@ class PollingScreen(QtWidgets.QMainWindow):
         return os.path.exists(file_path) and os.stat(file_path).st_size == 0
 
     def readFromJsonFile(self):
-        for filename in os.listdir(resource_path('TemplateJsonInstance/SimplePollingInstance/')):
-            with open(os.path.join(resource_path('TemplateJsonInstance/SimplePollingInstance/'), filename), 'r') as json_file:
+        for filename in os.listdir(resource_path('TemplateJsonInstance/TextInstance/')):
+            with open(os.path.join(resource_path('TemplateJsonInstance/TextInstance/'), filename), 'r') as json_file:
                 data = json.load(json_file)
                 self.listWidget.addItem(data['name'])
 
     def save(self):
         # check if string is empty
-        if self.Question.toPlainText() != "" and self.Option1.toPlainText() != "" and self.Option2.toPlainText() != "" and self.Option3.toPlainText() != "" and self.Option1.toPlainText() != "" and self.EntryName.toPlainText() != "":
+        if self.Question.toPlainText() != "" and self.Option1.toPlainText() != "" and self.Option2.toPlainText() != "" and self.Option3.toPlainText() != "" and self.Option4.toPlainText() != "" and self.EntryName.toPlainText() != "":
 
             if self.listWidget.count() == 0:
                 self.saveJson()
@@ -77,7 +77,7 @@ class PollingScreen(QtWidgets.QMainWindow):
     def saveJson(self):
         PollingSystemRecord = {
             "name": self.EntryName.toPlainText(),
-            "type": "simplePolling",
+            "type": "text",
             "question": self.Question.toPlainText(),
             "createdOn": datetime.datetime.now().timestamp(),
             "lastUpdated": datetime.datetime.now().timestamp(),
@@ -89,7 +89,7 @@ class PollingScreen(QtWidgets.QMainWindow):
             ]
 
         }
-        file = open(os.path.join(resource_path('TemplateJsonInstance/SimplePollingInstance/'),
+        file = open(os.path.join(resource_path('TemplateJsonInstance/TextInstance/'),
                                  self.EntryName.toPlainText() + ".json"),
                     'w')
         with file as json_file:
@@ -121,16 +121,16 @@ class PollingScreen(QtWidgets.QMainWindow):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(280, 75, 1291, 920))
+        self.label.setGeometry(QtCore.QRect(280, 60, 1291, 920))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap(resource_path('Images/PollingSystem_circle.png')))
+        self.label.setPixmap(QtGui.QPixmap(resource_path('Images/Conversation_circle.png')))
         self.label.setScaledContents(True)
-        self.label.setWordWrap(True)
+        self.label.setWordWrap(False)
         self.label.setIndent(21)
         self.label.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
         self.label.setObjectName("label")
         self.Question = QtWidgets.QTextBrowser(self.centralwidget)
-        self.Question.setGeometry(QtCore.QRect(1060, 240, 450, 120))
+        self.Question.setGeometry(QtCore.QRect(1150, 240, 365, 91))
         self.Question.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.Question.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Question.setTabChangesFocus(True)
@@ -141,7 +141,7 @@ class PollingScreen(QtWidgets.QMainWindow):
             QtCore.Qt.LinksAccessibleByKeyboard | QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextBrowserInteraction | QtCore.Qt.TextEditable | QtCore.Qt.TextEditorInteraction | QtCore.Qt.TextSelectableByKeyboard | QtCore.Qt.TextSelectableByMouse)
         self.Question.setObjectName("Question")
         self.Option2 = QtWidgets.QTextBrowser(self.centralwidget)
-        self.Option2.setGeometry(QtCore.QRect(700, 540, 170, 65))
+        self.Option2.setGeometry(QtCore.QRect(680, 540, 200, 80))
         self.Option2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.Option2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Option2.setTabChangesFocus(True)
@@ -152,7 +152,7 @@ class PollingScreen(QtWidgets.QMainWindow):
             QtCore.Qt.LinksAccessibleByKeyboard | QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextBrowserInteraction | QtCore.Qt.TextEditable | QtCore.Qt.TextEditorInteraction | QtCore.Qt.TextSelectableByKeyboard | QtCore.Qt.TextSelectableByMouse)
         self.Option2.setObjectName("Option1")
         self.Option3 = QtWidgets.QTextBrowser(self.centralwidget)
-        self.Option3.setGeometry(QtCore.QRect(840, 800, 201, 100))
+        self.Option3.setGeometry(QtCore.QRect(770, 830, 350, 100))
         self.Option3.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.Option3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Option3.setTabChangesFocus(True)
@@ -163,7 +163,7 @@ class PollingScreen(QtWidgets.QMainWindow):
             QtCore.Qt.LinksAccessibleByKeyboard | QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextBrowserInteraction | QtCore.Qt.TextEditable | QtCore.Qt.TextEditorInteraction | QtCore.Qt.TextSelectableByKeyboard | QtCore.Qt.TextSelectableByMouse)
         self.Option3.setObjectName("Option2")
         self.Option4 = QtWidgets.QTextBrowser(self.centralwidget)
-        self.Option4.setGeometry(QtCore.QRect(1380, 690, 160, 70))
+        self.Option4.setGeometry(QtCore.QRect(1350, 700, 200, 80))
         self.Option4.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.Option4.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Option4.setTabChangesFocus(True)
@@ -174,7 +174,7 @@ class PollingScreen(QtWidgets.QMainWindow):
             QtCore.Qt.LinksAccessibleByKeyboard | QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextBrowserInteraction | QtCore.Qt.TextEditable | QtCore.Qt.TextEditorInteraction | QtCore.Qt.TextSelectableByKeyboard | QtCore.Qt.TextSelectableByMouse)
         self.Option4.setObjectName("Option3")
         self.Option1 = QtWidgets.QTextBrowser(self.centralwidget)
-        self.Option1.setGeometry(QtCore.QRect(300, 600, 201, 120))
+        self.Option1.setGeometry(QtCore.QRect(290, 630, 240, 71))
         self.Option1.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.Option1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Option1.setTabChangesFocus(True)
@@ -186,7 +186,7 @@ class PollingScreen(QtWidgets.QMainWindow):
         self.Option1.setObjectName("Option4")
 
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(1430, 10, 121, 41))
+        self.pushButton.setGeometry(QtCore.QRect(1300, 10, 121, 41))
         self.pushButton.setObjectName("pushButton")
 
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
@@ -196,8 +196,8 @@ class PollingScreen(QtWidgets.QMainWindow):
         self.listWidget.setFont(font)
         self.listWidget.setAutoFillBackground(True)
         self.listWidget.setAlternatingRowColors(True)
-        self.listWidget.setSortingEnabled(True)
         self.listWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.listWidget.setViewMode(QtWidgets.QListView.IconMode)
         self.listWidget.setItemAlignment(QtCore.Qt.AlignVCenter)
         self.listWidget.setObjectName("listWidget")
         # this function reads the previous records in the json file
@@ -255,6 +255,11 @@ class PollingScreen(QtWidgets.QMainWindow):
         self.EntryName.setObjectName("textEdit")
         self.commandLinkButton.raise_()
         self.label.raise_()
+        self.Question.raise_()
+        self.Option1.raise_()
+        self.Option2.raise_()
+        self.Option3.raise_()
+        self.Option4.raise_()
         self.pushButton.raise_()
         self.listWidget.raise_()
         self.label_2.raise_()
@@ -262,11 +267,6 @@ class PollingScreen(QtWidgets.QMainWindow):
         self.CreateNewContent.raise_()
         self.line.raise_()
         self.EntryName.raise_()
-        self.Question.raise_()
-        self.Option1.raise_()
-        self.Option2.raise_()
-        self.Option3.raise_()
-        self.Option4.raise_()
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -287,9 +287,9 @@ class PollingScreen(QtWidgets.QMainWindow):
         items = self.listWidget.selectedItems()
         for item in items:
             # delete the file
-            for fileName in os.listdir(resource_path('TemplateJsonInstance/SimplePollingInstance/')):
+            for fileName in os.listdir(resource_path('TemplateJsonInstance/TextInstance/')):
                 if fileName == self.listWidget.currentItem().text() + ".json":
-                    os.remove( os.path.join(resource_path('TemplateJsonInstance/SimplePollingInstance/'), fileName))
+                    os.remove( os.path.join(resource_path('TemplateJsonInstance/TextInstance/'), fileName))
 
             self.listWidget.takeItem(self.listWidget.row(item))
 
@@ -305,10 +305,10 @@ class PollingScreen(QtWidgets.QMainWindow):
         text = self.listWidget.currentItem().text()
         self.EntryName.setPlainText(text)
         # find the file corresponding to the entry name
-        for fileName in os.listdir(resource_path('TemplateJsonInstance/SimplePollingInstance/')):
+        for fileName in os.listdir(resource_path('TemplateJsonInstance/TextInstance/')):
             # get the record from json for edit
             if fileName == text + ".json":
-                with open(os.path.join(resource_path('TemplateJsonInstance/SimplePollingInstance/'), fileName), 'r') as json_file:
+                with open(os.path.join(resource_path('TemplateJsonInstance/TextInstance/'), fileName), 'r') as json_file:
                     data = json.load(json_file)
                     self.Question.setPlainText(data['question'])
                     self.Option1.setPlainText(data['options'][0])
